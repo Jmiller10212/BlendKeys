@@ -11,6 +11,7 @@ import {
   Layers3,
   MousePointer2,
   PackageOpen,
+  Palette,
   Plus,
   Search,
   Settings2,
@@ -30,6 +31,7 @@ import { cheatsheets, glossary, type Keybind } from "./data/blenderShortcuts";
 
 type View = "shortcuts" | "library" | "cheatsheets" | "glossary" | "addons";
 const FAVORITES_STORAGE_KEY = "blendkeys.favoriteShortcutIds";
+const THEME_STORAGE_KEY = "blendkeys.theme";
 
 type AddonStatus = {
   blenderAddonInstalled: boolean;
@@ -75,7 +77,21 @@ const categoryIcons: Record<string, typeof Compass> = {
 };
 
 const fallbackLibrary = defaultShortcutLibrary as ShortcutLibrary;
-const releaseHighlight = "Update test build 0.1.2 installed. The in-app updater is working.";
+const releaseHighlight = "Theme picker and 30 more Blender shortcuts added in 0.1.3.";
+
+const themes = [
+  { id: "studio", name: "Blender Studio", note: "Default orange and blue studio look." },
+  { id: "midnight", name: "Midnight Blue", note: "Cooler blue workspace with quieter orange." },
+  { id: "graphite", name: "Graphite", note: "Neutral dark gray for long study sessions." },
+  { id: "ember", name: "Ember", note: "Warmer orange-forward contrast." },
+] as const;
+
+type ThemeId = (typeof themes)[number]["id"];
+
+const readTheme = (): ThemeId => {
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  return themes.some((theme) => theme.id === saved) ? (saved as ThemeId) : "studio";
+};
 
 const normalize = (value: string) => value.toLowerCase().replace(/\s+/g, " ");
 const tokenize = (value: string) =>
@@ -214,8 +230,14 @@ function App() {
   const [availableUpdate, setAvailableUpdate] = useState<Update | null>(null);
   const [updateBusy, setUpdateBusy] = useState(false);
   const [updateMessage, setUpdateMessage] = useState("");
+  const [theme, setTheme] = useState<ThemeId>(() => readTheme());
 
   const keybinds = shortcutLibrary.shortcuts.length ? shortcutLibrary.shortcuts : fallbackLibrary.shortcuts;
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1122,6 +1144,36 @@ function App() {
 
         {activeView === "addons" && (
           <section className="addons-view">
+            <article className="addon-card compact">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Appearance</span>
+                  <h2><Palette size={19} /> Theme</h2>
+                </div>
+                <span className="status-pill installed">
+                  {themes.find((item) => item.id === theme)?.name ?? "Theme"}
+                </span>
+              </div>
+              <p>
+                Change BlendKeys colors without changing how the shortcut browser works.
+                Blender Studio is the default theme.
+              </p>
+              <div className="theme-grid" aria-label="Theme choices">
+                {themes.map((item) => (
+                  <button
+                    className={theme === item.id ? "theme-card active" : "theme-card"}
+                    key={item.id}
+                    onClick={() => setTheme(item.id)}
+                    type="button"
+                  >
+                    <span className={`theme-swatch ${item.id}`} aria-hidden="true" />
+                    <strong>{item.name}</strong>
+                    <small>{item.note}</small>
+                  </button>
+                ))}
+              </div>
+            </article>
+
             <article className="addon-card compact">
               <div className="addon-card-heading">
                 <div>

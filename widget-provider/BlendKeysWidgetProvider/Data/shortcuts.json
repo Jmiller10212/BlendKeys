@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "filters": {
     "categories": [
       "Animation",
@@ -1342,6 +1342,460 @@
         "output"
       ],
       "beginnerPriority": 4
+    },
+    {
+      "id": "rotate-x",
+      "action": "Rotate on X axis",
+      "keys": "R then X",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Constrain a rotate operation to the X axis for precise rotations.",
+      "tags": [
+        "rotate",
+        "axis",
+        "x",
+        "constrain",
+        "transform"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "rotate-z",
+      "action": "Rotate on Z axis",
+      "keys": "R then Z",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Constrain rotation to the Z axis, useful for spinning objects around the vertical axis.",
+      "tags": [
+        "rotate",
+        "axis",
+        "z",
+        "constrain",
+        "transform"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "scale-axis",
+      "action": "Scale on one axis",
+      "keys": "S then X / Y / Z",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Start scaling, then press an axis key to resize only along that axis.",
+      "tags": [
+        "scale",
+        "axis",
+        "constrain",
+        "x",
+        "y",
+        "z"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "precise-transform",
+      "action": "Precision transform",
+      "keys": "Shift while transforming",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Hold Shift during a transform to make slower, more precise adjustments.",
+      "tags": [
+        "precision",
+        "transform",
+        "slow",
+        "fine tune"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "numeric-transform",
+      "action": "Type exact transform value",
+      "keys": "G / R / S then Number",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "After starting move, rotate, or scale, type a number to apply an exact amount.",
+      "tags": [
+        "numeric",
+        "exact",
+        "transform",
+        "value"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "toggle-gizmo",
+      "action": "Toggle viewport gizmos",
+      "keys": "Ctrl + Space then Gizmo",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Show or hide viewport transform and navigation gizmos from the overlay controls.",
+      "tags": [
+        "gizmo",
+        "viewport",
+        "display",
+        "overlay"
+      ],
+      "beginnerPriority": 2
+    },
+    {
+      "id": "toggle-overlays",
+      "action": "Toggle viewport overlays",
+      "keys": "Shift + Alt + Z",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Show or hide viewport overlays such as grid, outlines, origins, and relationship lines.",
+      "tags": [
+        "overlays",
+        "viewport",
+        "grid",
+        "display"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "wireframe-view",
+      "action": "Switch to wireframe shading",
+      "keys": "Shift + Z",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Switch the viewport to wireframe shading for seeing through forms and topology.",
+      "tags": [
+        "wireframe",
+        "viewport",
+        "shading",
+        "topology"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "material-preview",
+      "action": "Switch to material preview",
+      "keys": "Z then 2",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Use the viewport shading pie to enter Material Preview mode.",
+      "tags": [
+        "material preview",
+        "viewport",
+        "shading",
+        "materials"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "rendered-preview",
+      "action": "Switch to rendered preview",
+      "keys": "Z then 3",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Use the viewport shading pie to preview lighting and render settings in the viewport.",
+      "tags": [
+        "rendered",
+        "viewport",
+        "shading",
+        "lighting"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "walk-navigation",
+      "action": "Start walk navigation",
+      "keys": "Shift + `",
+      "category": "Navigation",
+      "mode": "Viewport",
+      "description": "Enter walk/fly style navigation for moving through the scene like a camera.",
+      "tags": [
+        "walk",
+        "fly",
+        "navigation",
+        "viewport"
+      ],
+      "beginnerPriority": 2
+    },
+    {
+      "id": "view-selected-all",
+      "action": "Frame all selected",
+      "keys": "Home / Numpad .",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Frame the whole scene or the current selection so it is visible in the viewport.",
+      "tags": [
+        "frame",
+        "view",
+        "selected",
+        "zoom"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "select-more",
+      "action": "Select more",
+      "keys": "Ctrl + Numpad +",
+      "category": "Selection",
+      "mode": "Edit",
+      "description": "Grow the current mesh selection to neighboring vertices, edges, or faces.",
+      "tags": [
+        "select",
+        "grow",
+        "more",
+        "mesh"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "select-less",
+      "action": "Select less",
+      "keys": "Ctrl + Numpad -",
+      "category": "Selection",
+      "mode": "Edit",
+      "description": "Shrink the current mesh selection inward from its boundary.",
+      "tags": [
+        "select",
+        "shrink",
+        "less",
+        "mesh"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "select-similar-menu",
+      "action": "Select similar menu",
+      "keys": "Shift + G",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Open options for selecting objects or mesh elements with similar properties.",
+      "tags": [
+        "select",
+        "similar",
+        "matching",
+        "shift g"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "grow-selection-linked",
+      "action": "Select linked under cursor",
+      "keys": "L",
+      "category": "Selection",
+      "mode": "Edit",
+      "description": "Select linked mesh geometry under the cursor, useful for selecting separate mesh islands.",
+      "tags": [
+        "select",
+        "linked",
+        "island",
+        "mesh"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "extrude-along-normals",
+      "action": "Extrude along normals",
+      "keys": "Alt + E",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open extrude options such as extrude along normals, individual faces, or manifold extrusion.",
+      "tags": [
+        "extrude",
+        "normals",
+        "faces",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "edge-slide",
+      "action": "Edge slide",
+      "keys": "G then G",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Slide selected vertices or edges along adjacent geometry without changing the overall form as much.",
+      "tags": [
+        "edge slide",
+        "slide",
+        "modeling",
+        "topology"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "vertex-bevel",
+      "action": "Vertex bevel",
+      "keys": "Ctrl + Shift + B",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Bevel selected vertices instead of edges, creating rounded or chamfered corners.",
+      "tags": [
+        "bevel",
+        "vertex",
+        "corner",
+        "modeling"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "subdivide-menu",
+      "action": "Subdivide selected geometry",
+      "keys": "Right Click > Subdivide",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Add more geometry by subdividing selected edges or faces from the context menu.",
+      "tags": [
+        "subdivide",
+        "mesh",
+        "geometry",
+        "right click"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "bridge-edge-loops",
+      "action": "Bridge edge loops",
+      "keys": "Ctrl + E then Bridge Edge Loops",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Connect two selected edge loops with faces to form continuous geometry.",
+      "tags": [
+        "bridge",
+        "edge loop",
+        "faces",
+        "modeling"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "solidify-search",
+      "action": "Add Solidify modifier",
+      "keys": "F3 then Solidify",
+      "category": "Modeling",
+      "mode": "Object",
+      "description": "Use command search to add a Solidify modifier for giving flat geometry thickness.",
+      "tags": [
+        "solidify",
+        "modifier",
+        "thickness",
+        "f3"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "apply-modifier-search",
+      "action": "Apply modifier",
+      "keys": "F3 then Apply Modifier",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Use command search to apply the active modifier when you are ready to make it real geometry.",
+      "tags": [
+        "apply",
+        "modifier",
+        "object",
+        "f3"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "quick-favorites-menu",
+      "action": "Open quick favorites",
+      "keys": "Q",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Open Blender quick favorites for commands you have manually added to that menu.",
+      "tags": [
+        "quick favorites",
+        "favorites",
+        "menu",
+        "q"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "add-quick-favorite",
+      "action": "Add command to quick favorites",
+      "keys": "Right Click > Add to Quick Favorites",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Add a menu command to Blender quick favorites so it appears in the Q menu.",
+      "tags": [
+        "quick favorites",
+        "add favorite",
+        "right click",
+        "menu"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "rename-active",
+      "action": "Rename active item",
+      "keys": "F2",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Rename the active object, bone, collection, or other selected data item.",
+      "tags": [
+        "rename",
+        "name",
+        "object",
+        "f2"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "toggle-fullscreen-area",
+      "action": "Toggle fullscreen area",
+      "keys": "Ctrl + Alt + Space",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Expand the current editor area to fullscreen and toggle it back again.",
+      "tags": [
+        "fullscreen",
+        "area",
+        "editor",
+        "workspace"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "play-reverse",
+      "action": "Play animation backward",
+      "keys": "Shift + Space",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Play the timeline backward from the current frame.",
+      "tags": [
+        "play",
+        "animation",
+        "timeline",
+        "reverse"
+      ],
+      "beginnerPriority": 2
+    },
+    {
+      "id": "previous-keyframe",
+      "action": "Jump to previous keyframe",
+      "keys": "Up Arrow",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Move the playhead to the previous keyframe in the timeline.",
+      "tags": [
+        "keyframe",
+        "timeline",
+        "previous",
+        "animation"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "next-keyframe",
+      "action": "Jump to next keyframe",
+      "keys": "Down Arrow",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Move the playhead to the next keyframe in the timeline.",
+      "tags": [
+        "keyframe",
+        "timeline",
+        "next",
+        "animation"
+      ],
+      "beginnerPriority": 3
     }
   ]
 }

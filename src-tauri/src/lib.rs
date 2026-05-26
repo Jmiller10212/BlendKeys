@@ -275,6 +275,52 @@ fn write_shortcut_library(library: &ShortcutLibrary) -> Result<(), String> {
     })
 }
 
+fn is_removed_demo_shortcut(shortcut: &Keybind) -> bool {
+    shortcut.id == "fun" && shortcut.action.eq_ignore_ascii_case("Just a fun action")
+}
+
+fn upgrade_shortcut_library_if_needed(mut library: ShortcutLibrary) -> Result<ShortcutLibrary, String> {
+    let default_library = default_shortcut_library();
+    if library.version >= default_library.version {
+        return Ok(library);
+    }
+
+    library.shortcuts.retain(|shortcut| !is_removed_demo_shortcut(shortcut));
+
+    let mut existing_ids: HashSet<String> = library
+        .shortcuts
+        .iter()
+        .map(|shortcut| shortcut.id.clone())
+        .collect();
+    for shortcut in default_library.shortcuts.iter().cloned() {
+        if existing_ids.insert(shortcut.id.clone()) {
+            library.shortcuts.push(shortcut);
+        }
+    }
+
+    library.version = default_library.version;
+    library.filters.categories = unique_strings(
+        library
+            .filters
+            .categories
+            .into_iter()
+            .chain(default_library.filters.categories)
+            .chain(library.shortcuts.iter().map(|shortcut| shortcut.category.clone())),
+    );
+    library.filters.modes = unique_strings(
+        library
+            .filters
+            .modes
+            .into_iter()
+            .chain(default_library.filters.modes)
+            .chain(library.shortcuts.iter().map(|shortcut| shortcut.mode.clone())),
+    );
+
+    let upgraded = validate_shortcut_library(&library)?;
+    write_shortcut_library(&upgraded)?;
+    Ok(upgraded)
+}
+
 fn seed_shortcut_library_if_missing() -> Result<(), String> {
     let path = shortcut_library_path()?;
     if path.exists() {
@@ -290,11 +336,14 @@ fn read_shortcut_library_from_disk() -> Result<ShortcutLibraryResponse, String> 
         .map_err(|error| format!("Unable to read {}: {error}", path.display()))?;
 
     match parse_shortcut_library(&content) {
-        Ok(library) => Ok(ShortcutLibraryResponse {
-            library,
-            path: path.display().to_string(),
-            error: None,
-        }),
+        Ok(library) => {
+            let library = upgrade_shortcut_library_if_needed(library)?;
+            Ok(ShortcutLibraryResponse {
+                library,
+                path: path.display().to_string(),
+                error: None,
+            })
+        }
         Err(error) => Ok(ShortcutLibraryResponse {
             library: default_shortcut_library(),
             path: path.display().to_string(),

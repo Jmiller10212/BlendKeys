@@ -819,6 +819,12 @@ kbd {
   margin-bottom: 0;
 }
 
+.addon-card-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .status-pill {
   flex: 0 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -903,6 +909,58 @@ kbd {
   color: #cfe8ff;
   padding: 12px;
   line-height: 1.45;
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.theme-card {
+  display: grid;
+  gap: 8px;
+  min-height: 132px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #eef4f8;
+  padding: 13px;
+  text-align: left;
+}
+
+.theme-card:hover,
+.theme-card.active {
+  border-color: rgba(247, 131, 32, 0.52);
+  background: rgba(247, 131, 32, 0.12);
+}
+
+.theme-card small {
+  color: #aeb9c5;
+  line-height: 1.35;
+}
+
+.theme-swatch {
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+}
+
+.theme-swatch.studio {
+  background: linear-gradient(135deg, #f78320, #317fcd 70%, #101318);
+}
+
+.theme-swatch.midnight {
+  background: linear-gradient(135deg, #1c3d5f, #3b82f6 60%, #07111f);
+}
+
+.theme-swatch.graphite {
+  background: linear-gradient(135deg, #525866, #d0d5dc 55%, #111316);
+}
+
+.theme-swatch.ember {
+  background: linear-gradient(135deg, #ff8a22, #9d2f18 55%, #160d0a);
 }
 
 .step-list {
@@ -1177,4 +1235,150 @@ kbd {
     right: 14px;
     bottom: 14px;
   }
+}
+
+body[data-theme] {
+  --accent: #f78320;
+  --accent-soft: rgba(247, 131, 32, 0.14);
+  --accent-strong: rgba(247, 131, 32, 0.42);
+  --accent-text: #ffd2a3;
+  --cool: #317fcd;
+  --panel: rgba(16, 20, 27, 0.78);
+  --panel-solid: #171d25;
+  --app-bg:
+    radial-gradient(circle at 18% 0%, rgba(236, 123, 39, 0.2), transparent 28rem),
+    radial-gradient(circle at 80% 12%, rgba(63, 151, 205, 0.18), transparent 30rem),
+    linear-gradient(135deg, #11151b 0%, #171a20 47%, #0d1117 100%);
+  --brand-gradient: linear-gradient(135deg, rgba(247, 131, 32, 0.95), rgba(49, 127, 205, 0.88));
+  background: var(--app-bg);
+}
+
+body[data-theme="midnight"] {
+  --accent: #55a7ff;
+  --accent-soft: rgba(85, 167, 255, 0.14);
+  --accent-strong: rgba(85, 167, 255, 0.48);
+  --accent-text: #d8ecff;
+  --cool: #7dd3fc;
+  --panel: rgba(10, 18, 30, 0.82);
+  --panel-solid: #111b2a;
+  --app-bg:
+    radial-gradient(circle at 12% 8%, rgba(85, 167, 255, 0.22), transparent 30rem),
+    radial-gradient(circle at 82% 12%, rgba(125, 211, 252, 0.16), transparent 30rem),
+    linear-gradient(135deg, #08111e 0%, #101a29 48%, #050a12 100%);
+  --brand-gradient: linear-gradient(135deg, rgba(58, 132, 229, 0.96), rgba(125, 211, 252, 0.82));
+}
+
+body[data-theme="graphite"] {
+  --accent: #d0d5dc;
+  --accent-soft: rgba(208, 213, 220, 0.13);
+  --accent-strong: rgba(208, 213, 220, 0.42);
+  --accent-text: #f5f7fa;
+  --cool: #9aa3ad;
+  --panel: rgba(20, 22, 25, 0.82);
+  --panel-solid: #1b1f24;
+  --app-bg:
+    radial-gradient(circle at 16% 0%, rgba(208, 213, 220, 0.13), transparent 28rem),
+    radial-gradient(circle at 78% 14%, rgba(112, 122, 134, 0.14), transparent 30rem),
+    linear-gradient(135deg, #101214 0%, #181b1f 50%, #090b0d 100%);
+  --brand-gradient: linear-gradient(135deg, rgba(97, 104, 116, 0.96), rgba(208, 213, 220, 0.82));
+}
+
+body[data-theme="ember"] {
+  --accent: #ff9a3d;
+  --accent-soft: rgba(255, 154, 61, 0.15);
+  --accent-strong: rgba(255, 154, 61, 0.5);
+  --accent-text: #ffe0bd;
+  --cool: #dc6042;
+  --panel: rgba(28, 16, 13, 0.82);
+  --panel-solid: #211713;
+  --app-bg:
+    radial-gradient(circle at 16% 0%, rgba(255, 138, 34, 0.22), transparent 28rem),
+    radial-gradient(circle at 80% 10%, rgba(157, 47, 24, 0.2), transparent 30rem),
+    linear-gradient(135deg, #150d0a 0%, #201512 48%, #0f0907 100%);
+  --brand-gradient: linear-gradient(135deg, rgba(255, 138, 34, 0.98), rgba(157, 47, 24, 0.86));
+}
+
+body[data-theme] .brand-mark,
+body[data-theme] .favorite-widget-toggle {
+  background: var(--brand-gradient);
+}
+
+body[data-theme] .sidebar,
+body[data-theme] .library-panel,
+body[data-theme] .detail-panel,
+body[data-theme] .learning-card,
+body[data-theme] .term-card,
+body[data-theme] .addon-card,
+body[data-theme] .editor-toolbar,
+body[data-theme] .editor-card,
+body[data-theme] .editor-list-panel,
+body[data-theme] .favorite-widget-panel {
+  background: var(--panel);
+}
+
+body[data-theme] .filters select,
+body[data-theme] .editor-form input,
+body[data-theme] .editor-form select,
+body[data-theme] .editor-form textarea,
+body[data-theme] .inline-editor input,
+body[data-theme] .inline-editor select,
+body[data-theme] .key-recorder input {
+  background: var(--panel-solid);
+}
+
+body[data-theme] .nav-item.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+body[data-theme] .search-box,
+body[data-theme] .search-box svg,
+body[data-theme] .group-heading,
+body[data-theme] .detail-hero span,
+body[data-theme] .empty-state svg {
+  color: var(--accent);
+}
+
+body[data-theme] .filter-chip:hover,
+body[data-theme] .filter-chip.active,
+body[data-theme] .detail-favorite:hover,
+body[data-theme] .detail-favorite.active,
+body[data-theme] .shortcut-row:hover,
+body[data-theme] .shortcut-row.selected,
+body[data-theme] .editor-shortcut.active,
+body[data-theme] .editor-shortcut:hover,
+body[data-theme] .widget-list button:hover,
+body[data-theme] .theme-card:hover,
+body[data-theme] .theme-card.active {
+  background: var(--accent-soft);
+}
+
+body[data-theme] .filter-chip:hover,
+body[data-theme] .filter-chip.active,
+body[data-theme] .detail-favorite:hover,
+body[data-theme] .detail-favorite.active,
+body[data-theme] .star-button:hover,
+body[data-theme] .star-button.active,
+body[data-theme] .theme-card:hover,
+body[data-theme] .theme-card.active {
+  border-color: var(--accent-strong);
+  color: var(--accent-text);
+}
+
+body[data-theme] .shortcut-row.selected {
+  outline-color: var(--accent-strong);
+}
+
+body[data-theme] .detail-hero,
+body[data-theme] .release-highlight {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 24%, transparent), color-mix(in srgb, var(--cool) 17%, transparent)),
+    rgba(255, 255, 255, 0.05);
+}
+
+body[data-theme] .addon-actions button,
+body[data-theme] .addon-card > button,
+body[data-theme] .inline-editor button {
+  border-color: var(--accent-strong);
+  background: var(--accent-soft);
+  color: var(--accent-text);
 }
