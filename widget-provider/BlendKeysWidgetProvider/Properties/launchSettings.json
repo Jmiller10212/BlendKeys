@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "BlendKeysWidgetProvider": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

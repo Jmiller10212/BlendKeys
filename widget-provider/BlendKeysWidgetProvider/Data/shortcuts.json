@@ -1,0 +1,1347 @@
+{
+  "version": 1,
+  "filters": {
+    "categories": [
+      "Animation",
+      "Edit Mode",
+      "General UI",
+      "Modeling",
+      "Navigation",
+      "Object Mode",
+      "Sculpting",
+      "Selection",
+      "Transform",
+      "Viewport"
+    ],
+    "modes": [
+      "Edit",
+      "Global",
+      "Object",
+      "Object / Edit",
+      "Object / Pose",
+      "Sculpt",
+      "Timeline",
+      "Viewport"
+    ]
+  },
+  "shortcuts": [
+    {
+      "id": "move",
+      "action": "Move selection",
+      "keys": "G",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Grab the selected object, vertex, edge, or face and move it in the viewport.",
+      "tags": [
+        "move",
+        "grab",
+        "translate",
+        "transform"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "move-x",
+      "action": "Move on X axis",
+      "keys": "G then X",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Constrain a move operation to the X axis for clean horizontal placement.",
+      "tags": [
+        "move",
+        "axis",
+        "x",
+        "constrain"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "rotate",
+      "action": "Rotate selection",
+      "keys": "R",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Rotate the current selection around the active pivot point.",
+      "tags": [
+        "rotate",
+        "transform",
+        "pivot"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "scale",
+      "action": "Scale selection",
+      "keys": "S",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Resize the selected object or mesh components from the current pivot.",
+      "tags": [
+        "scale",
+        "resize",
+        "transform"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "confirm",
+      "action": "Confirm operation",
+      "keys": "Enter / Left Click",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Accept the active transform, tool, or modal command.",
+      "tags": [
+        "confirm",
+        "accept",
+        "finish"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "cancel",
+      "action": "Cancel operation",
+      "keys": "Esc / Right Click",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Cancel the active operation and return to the previous state.",
+      "tags": [
+        "cancel",
+        "escape",
+        "undo"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "undo",
+      "action": "Undo",
+      "keys": "Ctrl + Z",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Step backward through recent actions.",
+      "tags": [
+        "undo",
+        "history",
+        "mistake"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "redo",
+      "action": "Redo",
+      "keys": "Ctrl + Shift + Z",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Restore the next action after undoing.",
+      "tags": [
+        "redo",
+        "history"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "add-menu",
+      "action": "Add object menu",
+      "keys": "Shift + A",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Open the menu for adding meshes, curves, lights, cameras, and other objects.",
+      "tags": [
+        "add",
+        "mesh",
+        "object",
+        "shift a"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "delete",
+      "action": "Delete selection",
+      "keys": "X / Delete",
+      "category": "Object Mode",
+      "mode": "Object / Edit",
+      "description": "Delete selected objects or selected mesh components.",
+      "tags": [
+        "delete",
+        "remove",
+        "object",
+        "mesh"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "duplicate",
+      "action": "Duplicate selection",
+      "keys": "Shift + D",
+      "category": "Object Mode",
+      "mode": "Object / Edit",
+      "description": "Create a movable duplicate of the current selection.",
+      "tags": [
+        "duplicate",
+        "copy",
+        "clone"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "duplicate-linked",
+      "action": "Duplicate linked",
+      "keys": "Alt + D",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Create a duplicate that shares object data with the original.",
+      "tags": [
+        "duplicate",
+        "linked",
+        "copy"
+      ],
+      "beginnerPriority": 2
+    },
+    {
+      "id": "select-all",
+      "action": "Select all",
+      "keys": "A",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Select everything in the active context.",
+      "tags": [
+        "select",
+        "all",
+        "highlight"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "deselect-all",
+      "action": "Deselect all",
+      "keys": "Alt + A",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Clear the current selection.",
+      "tags": [
+        "select",
+        "deselect",
+        "clear"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "box-select",
+      "action": "Box select",
+      "keys": "B",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Drag a rectangular selection region over objects or mesh elements.",
+      "tags": [
+        "select",
+        "box",
+        "region"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "circle-select",
+      "action": "Circle select",
+      "keys": "C",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Paint selection with a circular brush.",
+      "tags": [
+        "select",
+        "circle",
+        "brush"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "mode-toggle",
+      "action": "Toggle Object/Edit Mode",
+      "keys": "Tab",
+      "category": "Edit Mode",
+      "mode": "Object / Edit",
+      "description": "Switch between moving whole objects and editing the mesh itself.",
+      "tags": [
+        "edit mode",
+        "object mode",
+        "mode",
+        "tab"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "extrude",
+      "action": "Extrude selection",
+      "keys": "E",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Pull new geometry out from selected vertices, edges, or faces.",
+      "tags": [
+        "extrude",
+        "modeling",
+        "mesh",
+        "face"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "inset",
+      "action": "Inset faces",
+      "keys": "I",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Create an inset region inside selected faces.",
+      "tags": [
+        "inset",
+        "face",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "loop-cut",
+      "action": "Loop cut",
+      "keys": "Ctrl + R",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Add a new edge loop through a mesh for more modeling control.",
+      "tags": [
+        "loop cut",
+        "edge",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "bevel",
+      "action": "Bevel selection",
+      "keys": "Ctrl + B",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Round or chamfer selected edges and vertices.",
+      "tags": [
+        "bevel",
+        "edge",
+        "round",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "knife",
+      "action": "Knife tool",
+      "keys": "K",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Cut custom edges across mesh faces.",
+      "tags": [
+        "knife",
+        "cut",
+        "modeling"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "vertex-select",
+      "action": "Vertex select",
+      "keys": "1",
+      "category": "Edit Mode",
+      "mode": "Edit",
+      "description": "Select individual mesh vertices.",
+      "tags": [
+        "vertex",
+        "select",
+        "mesh",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "edge-select",
+      "action": "Edge select",
+      "keys": "2",
+      "category": "Edit Mode",
+      "mode": "Edit",
+      "description": "Select mesh edges.",
+      "tags": [
+        "edge",
+        "select",
+        "mesh",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "face-select",
+      "action": "Face select",
+      "keys": "3",
+      "category": "Edit Mode",
+      "mode": "Edit",
+      "description": "Select mesh faces.",
+      "tags": [
+        "face",
+        "select",
+        "mesh",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "orbit",
+      "action": "Orbit view",
+      "keys": "Middle Mouse Drag",
+      "category": "Navigation",
+      "mode": "Viewport",
+      "description": "Rotate the viewport camera around the scene.",
+      "tags": [
+        "viewport",
+        "orbit",
+        "navigation",
+        "view"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "pan",
+      "action": "Pan view",
+      "keys": "Shift + Middle Mouse Drag",
+      "category": "Navigation",
+      "mode": "Viewport",
+      "description": "Move the viewport view sideways or vertically.",
+      "tags": [
+        "viewport",
+        "pan",
+        "navigation",
+        "view"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "zoom",
+      "action": "Zoom view",
+      "keys": "Mouse Wheel",
+      "category": "Navigation",
+      "mode": "Viewport",
+      "description": "Move the viewport camera closer or farther from the scene.",
+      "tags": [
+        "viewport",
+        "zoom",
+        "navigation",
+        "view"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "front-view",
+      "action": "Front view",
+      "keys": "Numpad 1",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Snap the viewport to the front orthographic angle.",
+      "tags": [
+        "viewport",
+        "front",
+        "orthographic",
+        "view"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "side-view",
+      "action": "Right view",
+      "keys": "Numpad 3",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Snap the viewport to the right orthographic angle.",
+      "tags": [
+        "viewport",
+        "side",
+        "right",
+        "orthographic",
+        "view"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "top-view",
+      "action": "Top view",
+      "keys": "Numpad 7",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Snap the viewport to the top orthographic angle.",
+      "tags": [
+        "viewport",
+        "top",
+        "orthographic",
+        "view"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "frame-selected",
+      "action": "Frame selected",
+      "keys": "Numpad .",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Center the view on the active selection.",
+      "tags": [
+        "viewport",
+        "focus",
+        "frame",
+        "selected"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "shade-pie",
+      "action": "Viewport shading pie",
+      "keys": "Z",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Switch between wireframe, solid, material preview, and rendered views.",
+      "tags": [
+        "viewport",
+        "shading",
+        "wireframe",
+        "rendered"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "reset-3d-cursor",
+      "action": "Reset 3D cursor and frame all",
+      "keys": "Shift + C",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Move the 3D cursor back to the world origin and frame the scene in the viewport.",
+      "tags": [
+        "3d cursor",
+        "cursor",
+        "origin",
+        "center",
+        "viewport",
+        "shift c"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "place-3d-cursor",
+      "action": "Place 3D cursor",
+      "keys": "Shift + Right Click",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Place the 3D cursor at the clicked point in the 3D viewport.",
+      "tags": [
+        "3d cursor",
+        "cursor",
+        "place",
+        "right click",
+        "shift right click"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "snap-menu",
+      "action": "Snap pie menu",
+      "keys": "Shift + S",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Open the snap menu for moving selections, the 3D cursor, or objects to useful locations.",
+      "tags": [
+        "snap",
+        "3d cursor",
+        "cursor",
+        "selection",
+        "origin",
+        "shift s"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "cursor-to-selected",
+      "action": "Cursor to selected",
+      "keys": "Shift + S then Cursor to Selected",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Move the 3D cursor to the center of the current selection.",
+      "tags": [
+        "snap",
+        "3d cursor",
+        "cursor",
+        "selected",
+        "selection"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "selection-to-cursor",
+      "action": "Selection to cursor",
+      "keys": "Shift + S then Selection to Cursor",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Move the selected object or mesh elements to the 3D cursor.",
+      "tags": [
+        "snap",
+        "3d cursor",
+        "cursor",
+        "selection",
+        "move"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "search-command",
+      "action": "Search Blender commands",
+      "keys": "F3",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Search Blender's command menu by name.",
+      "tags": [
+        "search",
+        "command",
+        "menu"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "save",
+      "action": "Save file",
+      "keys": "Ctrl + S",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Save the current Blender file.",
+      "tags": [
+        "save",
+        "file"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "apply-scale",
+      "action": "Apply scale",
+      "keys": "Ctrl + A then Scale",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Bake object scale values into the object data before modeling or exporting.",
+      "tags": [
+        "apply",
+        "scale",
+        "transform",
+        "object"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "clear-location",
+      "action": "Clear location",
+      "keys": "Alt + G",
+      "category": "Transform",
+      "mode": "Object / Pose",
+      "description": "Reset the selected object's location values back to zero.",
+      "tags": [
+        "clear",
+        "location",
+        "move",
+        "transform",
+        "reset"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "clear-rotation",
+      "action": "Clear rotation",
+      "keys": "Alt + R",
+      "category": "Transform",
+      "mode": "Object / Pose",
+      "description": "Reset the selected object's rotation values back to zero.",
+      "tags": [
+        "clear",
+        "rotation",
+        "rotate",
+        "transform",
+        "reset"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "clear-scale",
+      "action": "Clear scale",
+      "keys": "Alt + S",
+      "category": "Transform",
+      "mode": "Object / Pose",
+      "description": "Reset the selected object's scale values back to one.",
+      "tags": [
+        "clear",
+        "scale",
+        "transform",
+        "reset"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "transform-pivot-pie",
+      "action": "Transform pivot pie",
+      "keys": ".",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Open pivot point options such as median point, individual origins, and 3D cursor.",
+      "tags": [
+        "pivot",
+        "3d cursor",
+        "origin",
+        "transform"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "snap-toggle",
+      "action": "Toggle snapping",
+      "keys": "Shift + Tab",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Turn snapping on or off while positioning, rotating, or scaling.",
+      "tags": [
+        "snap",
+        "snapping",
+        "transform",
+        "precision"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "hide-selected",
+      "action": "Hide selected",
+      "keys": "H",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Temporarily hide the selected objects or mesh elements.",
+      "tags": [
+        "hide",
+        "visibility",
+        "viewport",
+        "selected"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "hide-unselected",
+      "action": "Hide unselected",
+      "keys": "Shift + H",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Hide everything except the current selection.",
+      "tags": [
+        "hide",
+        "isolate",
+        "visibility",
+        "viewport",
+        "selection"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "reveal-hidden",
+      "action": "Reveal hidden",
+      "keys": "Alt + H",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Show hidden objects or mesh elements again.",
+      "tags": [
+        "hide",
+        "reveal",
+        "visibility",
+        "viewport"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "local-view",
+      "action": "Toggle local view",
+      "keys": "Numpad /",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Isolate the selected object in a temporary focused viewport view.",
+      "tags": [
+        "local view",
+        "isolate",
+        "focus",
+        "viewport"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "collection-menu",
+      "action": "Move to collection",
+      "keys": "M",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Move selected objects into an existing or new collection.",
+      "tags": [
+        "collection",
+        "move",
+        "organize",
+        "object"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "join-objects",
+      "action": "Join objects",
+      "keys": "Ctrl + J",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Combine selected objects into the active object.",
+      "tags": [
+        "join",
+        "combine",
+        "object",
+        "mesh"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "make-parent",
+      "action": "Make parent",
+      "keys": "Ctrl + P",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Parent selected objects to the active object or another parent type.",
+      "tags": [
+        "parent",
+        "hierarchy",
+        "object"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "clear-parent",
+      "action": "Clear parent",
+      "keys": "Alt + P",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Remove parent relationships from selected objects.",
+      "tags": [
+        "parent",
+        "hierarchy",
+        "clear",
+        "object"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "merge-menu",
+      "action": "Merge vertices menu",
+      "keys": "M",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open merge options for combining selected vertices.",
+      "tags": [
+        "merge",
+        "vertices",
+        "vertex",
+        "modeling",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "fill-face",
+      "action": "Fill face",
+      "keys": "F",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Create an edge or face from the selected vertices or edges.",
+      "tags": [
+        "fill",
+        "face",
+        "edge",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "separate-menu",
+      "action": "Separate selection menu",
+      "keys": "P",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Separate selected mesh elements into a new object.",
+      "tags": [
+        "separate",
+        "split",
+        "mesh",
+        "object",
+        "edit mode"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "proportional-editing",
+      "action": "Toggle proportional editing",
+      "keys": "O",
+      "category": "Modeling",
+      "mode": "Object / Edit",
+      "description": "Enable smooth falloff transforms that affect nearby geometry or objects.",
+      "tags": [
+        "proportional editing",
+        "falloff",
+        "move",
+        "transform",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "sculpt-brush-size",
+      "action": "Adjust brush size",
+      "keys": "F",
+      "category": "Sculpting",
+      "mode": "Sculpt",
+      "description": "Change the active sculpt brush radius.",
+      "tags": [
+        "sculpt",
+        "brush",
+        "size"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "play-animation",
+      "action": "Play animation",
+      "keys": "Space",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Play or pause the animation timeline.",
+      "tags": [
+        "animation",
+        "timeline",
+        "play"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "toggle-xray",
+      "action": "Toggle X-Ray view",
+      "keys": "Alt + Z",
+      "category": "Viewport",
+      "mode": "Object / Edit",
+      "description": "Toggle X-Ray display in the 3D Viewport so you can see and select through objects or mesh geometry.",
+      "tags": [
+        "xray",
+        "x-ray",
+        "see through",
+        "viewport",
+        "transparent",
+        "toggle",
+        "selection"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "toggle-ortho-perspective",
+      "action": "Toggle orthographic/perspective view",
+      "keys": "Numpad 5",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Switch the 3D Viewport between orthographic and perspective projection.",
+      "tags": [
+        "orthographic",
+        "perspective",
+        "ortho",
+        "view",
+        "viewport",
+        "numpad"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "camera-view",
+      "action": "Toggle camera view",
+      "keys": "Numpad 0",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Look through the active camera, or return to the normal viewport view.",
+      "tags": [
+        "camera",
+        "view",
+        "render",
+        "viewport",
+        "numpad"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "frame-all",
+      "action": "Frame all objects",
+      "keys": "Home",
+      "category": "Viewport",
+      "mode": "Viewport",
+      "description": "Zoom and pan the viewport so all visible objects fit in view.",
+      "tags": [
+        "frame",
+        "zoom",
+        "all",
+        "view",
+        "viewport",
+        "home"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "toggle-sidebar",
+      "action": "Toggle viewport sidebar",
+      "keys": "N",
+      "category": "General UI",
+      "mode": "Viewport",
+      "description": "Show or hide the right sidebar panel in the 3D Viewport.",
+      "tags": [
+        "sidebar",
+        "panel",
+        "properties",
+        "item",
+        "tool",
+        "view",
+        "n panel"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "toggle-toolbar",
+      "action": "Toggle viewport toolbar",
+      "keys": "T",
+      "category": "General UI",
+      "mode": "Viewport",
+      "description": "Show or hide the left toolbar in the 3D Viewport.",
+      "tags": [
+        "toolbar",
+        "tools",
+        "panel",
+        "viewport",
+        "toggle"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "maximize-area",
+      "action": "Maximize current editor area",
+      "keys": "Ctrl + Space",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Temporarily expand the current Blender editor area to use more screen space.",
+      "tags": [
+        "maximize",
+        "fullscreen",
+        "area",
+        "editor",
+        "space",
+        "ui"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "invert-selection",
+      "action": "Invert selection",
+      "keys": "Ctrl + I",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Select everything currently unselected and deselect the current selection.",
+      "tags": [
+        "invert",
+        "selection",
+        "select",
+        "opposite"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "select-linked",
+      "action": "Select linked geometry or objects",
+      "keys": "Ctrl + L",
+      "category": "Selection",
+      "mode": "Object / Edit",
+      "description": "Select linked data, such as connected mesh geometry in Edit Mode or linked object data in Object Mode.",
+      "tags": [
+        "select linked",
+        "linked",
+        "connected",
+        "mesh",
+        "object"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "select-loop",
+      "action": "Select edge loop",
+      "keys": "Alt + Left Click",
+      "category": "Selection",
+      "mode": "Edit",
+      "description": "Select a connected edge loop by Alt-clicking an edge in Edit Mode.",
+      "tags": [
+        "edge loop",
+        "loop select",
+        "select",
+        "edge",
+        "modeling"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "edge-menu",
+      "action": "Open edge menu",
+      "keys": "Ctrl + E",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open the edge operations menu for actions like mark sharp, bevel weight, bridge, and rotate edge.",
+      "tags": [
+        "edge menu",
+        "edge",
+        "mesh",
+        "modeling",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "face-menu",
+      "action": "Open face menu",
+      "keys": "Ctrl + F",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open the face operations menu for actions like triangulate, shade smooth, grid fill, and solidify faces.",
+      "tags": [
+        "face menu",
+        "face",
+        "mesh",
+        "modeling",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "vertex-menu",
+      "action": "Open vertex menu",
+      "keys": "Ctrl + V",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open the vertex operations menu for actions like merge, bevel vertices, smooth vertices, and remove doubles.",
+      "tags": [
+        "vertex menu",
+        "vertex",
+        "mesh",
+        "modeling",
+        "edit mode"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "normals-menu",
+      "action": "Open normals menu",
+      "keys": "Alt + N",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open normal direction tools, including flip normals and recalculate normals.",
+      "tags": [
+        "normals",
+        "normal",
+        "flip",
+        "recalculate",
+        "mesh",
+        "shading"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "recalculate-normals-outside",
+      "action": "Recalculate normals outside",
+      "keys": "Shift + N",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Recalculate selected mesh normals so they point outward, which helps fix inside-out shading.",
+      "tags": [
+        "normals",
+        "recalculate",
+        "outside",
+        "shading",
+        "mesh",
+        "fix"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "unwrap-menu",
+      "action": "Open UV unwrap menu",
+      "keys": "U",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Open UV unwrapping options for selected mesh faces.",
+      "tags": [
+        "uv",
+        "unwrap",
+        "texture",
+        "mapping",
+        "faces",
+        "mesh"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "connect-vertex-path",
+      "action": "Connect vertex path",
+      "keys": "J",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Create edges or cuts connecting selected vertices across a face.",
+      "tags": [
+        "connect",
+        "vertex",
+        "path",
+        "edge",
+        "cut",
+        "modeling"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "rip-vertices",
+      "action": "Rip vertices",
+      "keys": "V",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Rip selected vertices or edges away from connected geometry while keeping them in place for separation.",
+      "tags": [
+        "rip",
+        "vertices",
+        "separate",
+        "mesh",
+        "edit mode"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "split-selection",
+      "action": "Split selection",
+      "keys": "Y",
+      "category": "Modeling",
+      "mode": "Edit",
+      "description": "Split selected geometry from surrounding mesh connections without moving it.",
+      "tags": [
+        "split",
+        "separate",
+        "mesh",
+        "selection",
+        "geometry"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "mirror-transform",
+      "action": "Mirror selection",
+      "keys": "Ctrl + M",
+      "category": "Transform",
+      "mode": "Object / Edit",
+      "description": "Start a mirror transform, then choose an axis to mirror the selected object or geometry.",
+      "tags": [
+        "mirror",
+        "flip",
+        "axis",
+        "transform",
+        "symmetry"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "set-origin-menu",
+      "action": "Open Set Origin menu",
+      "keys": "Right Click > Set Origin",
+      "category": "Object Mode",
+      "mode": "Object",
+      "description": "Open origin placement options such as Origin to Geometry or Geometry to Origin.",
+      "tags": [
+        "origin",
+        "set origin",
+        "pivot",
+        "geometry",
+        "object"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "shade-smooth-menu",
+      "action": "Shade smooth from context menu",
+      "keys": "Right Click > Shade Smooth",
+      "category": "Object Mode",
+      "mode": "Object / Edit",
+      "description": "Smooth the visual shading of selected objects or faces from the context menu.",
+      "tags": [
+        "shade smooth",
+        "smooth",
+        "shading",
+        "right click",
+        "faces"
+      ],
+      "beginnerPriority": 5
+    },
+    {
+      "id": "insert-keyframe",
+      "action": "Insert keyframe",
+      "keys": "I",
+      "category": "Animation",
+      "mode": "Object / Pose",
+      "description": "Insert a keyframe for the selected object, bone, or animated property.",
+      "tags": [
+        "keyframe",
+        "animation",
+        "insert",
+        "timeline",
+        "animate"
+      ],
+      "beginnerPriority": 4
+    },
+    {
+      "id": "jump-start-frame",
+      "action": "Jump to start frame",
+      "keys": "Shift + Left Arrow",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Move the playhead to the first frame of the current timeline range.",
+      "tags": [
+        "timeline",
+        "animation",
+        "start",
+        "first frame",
+        "playhead"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "jump-end-frame",
+      "action": "Jump to end frame",
+      "keys": "Shift + Right Arrow",
+      "category": "Animation",
+      "mode": "Timeline",
+      "description": "Move the playhead to the last frame of the current timeline range.",
+      "tags": [
+        "timeline",
+        "animation",
+        "end",
+        "last frame",
+        "playhead"
+      ],
+      "beginnerPriority": 3
+    },
+    {
+      "id": "render-image",
+      "action": "Render image",
+      "keys": "F12",
+      "category": "General UI",
+      "mode": "Global",
+      "description": "Render the current frame using the active scene render settings.",
+      "tags": [
+        "render",
+        "image",
+        "f12",
+        "camera",
+        "output"
+      ],
+      "beginnerPriority": 4
+    }
+  ]
+}

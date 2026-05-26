@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build signed Tauri updater artifact
+        shell: pwsh
+        run: |
+          $env:TAURI_SIGNING_PRIVATE_KEY = "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}"
+          $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}"
+          npm run tauri build
+
+      - name: Sign updater artifact if needed and create manifest
+        shell: pwsh
+        run: |
+          $env:TAURI_SIGNING_PRIVATE_KEY = "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}"
+          $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}"
+          $setup = Get-ChildItem .\src-tauri\target\release\bundle\nsis\BlendKeys_*_x64-setup.exe | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not (Test-Path "$($setup.FullName).sig")) {
+            npm run tauri signer sign -- --password="$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD" $setup.FullName
+          }
+          npm run release:manifest
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/updater/BlendKeys_*_x64-setup.exe
+            release/updater/BlendKeys_*_x64-setup.exe.sig
+            release/updater/latest.json
