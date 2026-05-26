@@ -1,6 +1,6 @@
 # BlendKeys
 
-BlendKeys is a Windows desktop companion app for learning Blender shortcuts. It ships an offline Blender 4.x shortcut reference, searchable keybind browser, beginner cheatsheets, and a compact glossary.
+BlendKeys is a Windows desktop companion app for learning Blender shortcuts. It ships an offline Blender 4.x shortcut reference, searchable keybind browser, beginner cheatsheets, a compact glossary, and signed in-app updates.
 
 Favorites are stored in a shared Windows app-data file so companion surfaces can read them:
 

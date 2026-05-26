@@ -1,6 +1,6 @@
 [package]
 name = "blendkeys"
-version = "0.1.1"
+version = "0.1.2"
 description = "A polished Blender shortcut learning desk."
 authors = ["BlendKeys"]
 edition = "2021"

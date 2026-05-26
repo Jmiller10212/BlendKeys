@@ -194,6 +194,34 @@ button {
   line-height: 1.45;
 }
 
+.release-highlight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -6px 0 18px;
+  border: 1px solid rgba(49, 127, 205, 0.34);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(49, 127, 205, 0.18), rgba(247, 131, 32, 0.12)),
+    rgba(255, 255, 255, 0.045);
+  color: #d9ecff;
+  padding: 12px 14px;
+}
+
+.release-highlight svg {
+  flex: 0 0 auto;
+  color: #f7a557;
+}
+
+.release-highlight strong {
+  color: #ffffff;
+}
+
+.release-highlight span {
+  color: #b9cce0;
+  line-height: 1.4;
+}
+
 .stat-strip {
   display: flex;
   flex-wrap: wrap;

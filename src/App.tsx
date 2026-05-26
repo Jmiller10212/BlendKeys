@@ -75,6 +75,7 @@ const categoryIcons: Record<string, typeof Compass> = {
 };
 
 const fallbackLibrary = defaultShortcutLibrary as ShortcutLibrary;
+const releaseHighlight = "Update test build 0.1.2 installed. The in-app updater is working.";
 
 const normalize = (value: string) => value.toLowerCase().replace(/\s+/g, " ");
 const tokenize = (value: string) =>
@@ -712,6 +713,12 @@ function App() {
             <span>{shortcutLibraryError}</span>
           </div>
         )}
+
+        <div className="release-highlight">
+          <Sparkles size={18} />
+          <strong>What&apos;s new</strong>
+          <span>{releaseHighlight}</span>
+        </div>
 
         {activeView === "shortcuts" && (
           <div className="shortcut-view">
