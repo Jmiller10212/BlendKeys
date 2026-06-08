@@ -9,9 +9,11 @@ import {
   GraduationCap,
   Keyboard,
   Layers3,
+  Lightbulb,
   MousePointer2,
   PackageOpen,
   Palette,
+  PlayCircle,
   Plus,
   Search,
   Settings2,
@@ -27,11 +29,14 @@ import { listen } from "@tauri-apps/api/event";
 import { check, type Update } from "@tauri-apps/plugin-updater";
 import "./App.css";
 import defaultShortcutLibrary from "./data/defaultShortcutLibrary.json";
-import { cheatsheets, glossary, type Keybind } from "./data/blenderShortcuts";
+import { cheatsheets, glossary, learningPaths, tipGuides, type Keybind } from "./data/blenderShortcuts";
 
-type View = "shortcuts" | "library" | "cheatsheets" | "glossary" | "addons" | "settings";
+type View = "shortcuts" | "practice" | "paths" | "tips" | "collections" | "library" | "cheatsheets" | "glossary" | "addons" | "settings";
 const FAVORITES_STORAGE_KEY = "blendkeys.favoriteShortcutIds";
 const THEME_STORAGE_KEY = "blendkeys.theme";
+const RECENT_STORAGE_KEY = "blendkeys.recentShortcutIds";
+const NOTES_STORAGE_KEY = "blendkeys.favoriteNotes";
+const COLLECTIONS_STORAGE_KEY = "blendkeys.collections";
 
 type AddonStatus = {
   blenderAddonInstalled: boolean;
@@ -58,8 +63,18 @@ type ShortcutLibraryResponse = {
   error?: string | null;
 };
 
+type ShortcutCollection = {
+  id: string;
+  name: string;
+  shortcutIds: string[];
+};
+
 const navigation = [
   { id: "shortcuts" as const, label: "Shortcuts", icon: Keyboard },
+  { id: "practice" as const, label: "Practice", icon: PlayCircle },
+  { id: "paths" as const, label: "Paths", icon: Compass },
+  { id: "tips" as const, label: "Tips", icon: Lightbulb },
+  { id: "collections" as const, label: "Collections", icon: Star },
   { id: "library" as const, label: "Library", icon: Settings2 },
   { id: "cheatsheets" as const, label: "Cheatsheets", icon: BookOpen },
   { id: "glossary" as const, label: "Glossary", icon: GraduationCap },
@@ -78,7 +93,34 @@ const categoryIcons: Record<string, typeof Compass> = {
 };
 
 const fallbackLibrary = defaultShortcutLibrary as ShortcutLibrary;
-const releaseHighlight = "Settings update 0.1.5: themes and app updates now live in Settings.";
+const releaseHighlight = "Learning update 0.1.6: practice, paths, tips, collections, and smarter search.";
+
+const searchSynonyms: Record<string, string[]> = {
+  "see through": ["xray", "x-ray", "wireframe", "select through"],
+  transparent: ["xray", "x-ray", "wireframe"],
+  flush: ["snap", "face snapping", "align", "cursor", "surface"],
+  attach: ["snap", "parent", "align", "join"],
+  doorknob: ["snap", "face snapping", "cursor", "selection to cursor"],
+  door: ["snap", "face snapping", "align", "flush"],
+  smooth: ["shade smooth", "smooth vertices", "normals", "bevel"],
+  black: ["normals", "recalculate normals", "shading"],
+  insideout: ["normals", "recalculate normals", "flip"],
+  texture: ["uv", "unwrap", "material", "seam"],
+  camera: ["render", "align camera", "view"],
+  picture: ["render", "image", "camera"],
+};
+
+const workspaceContexts = [
+  "All",
+  "Layout",
+  "Modeling",
+  "UV Editing",
+  "Sculpting",
+  "Shading",
+  "Animation",
+  "Geometry Nodes",
+  "Rendering",
+];
 
 const themes = [
   { id: "studio", name: "Blender Studio", note: "Default orange and blue studio look." },
@@ -100,6 +142,14 @@ const tokenize = (value: string) =>
     .split(/[^a-z0-9]+/)
     .filter(Boolean);
 
+const expandSearchQuery = (query: string) => {
+  const normalized = normalize(query);
+  const extraTerms = Object.entries(searchSynonyms)
+    .filter(([phrase]) => normalized.includes(phrase))
+    .flatMap(([, terms]) => terms);
+  return [query, ...extraTerms].join(" ");
+};
+
 function scoreShortcut(shortcut: Keybind, query: string) {
   if (!query) return shortcut.beginnerPriority;
 
@@ -113,7 +163,7 @@ function scoreShortcut(shortcut: Keybind, query: string) {
       shortcut.tags.join(" "),
     ].join(" "),
   );
-  const normalizedQuery = normalize(query);
+  const normalizedQuery = normalize(expandSearchQuery(query));
   const tokens = tokenize(haystack);
   const terms = normalizedQuery.split(" ").filter(Boolean);
   const matches = terms.filter(
@@ -141,6 +191,40 @@ function readLocalFavorites() {
 function writeLocalFavorites(favoriteIds: string[]) {
   localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoriteIds));
 }
+
+function readJsonStorage<T>(key: string, fallback: T): T {
+  try {
+    return JSON.parse(localStorage.getItem(key) ?? "") as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJsonStorage<T>(key: string, value: T) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+const getDifficulty = (shortcut: Keybind) => {
+  if (shortcut.beginnerPriority >= 5) return "Beginner";
+  if (shortcut.beginnerPriority >= 3) return "Intermediate";
+  return "Advanced";
+};
+
+const workspaceMatches = (shortcut: Keybind, workspace: string) => {
+  if (workspace === "All") return true;
+  const text = normalize([shortcut.category, shortcut.mode, shortcut.tags.join(" "), shortcut.description].join(" "));
+  const aliases: Record<string, string[]> = {
+    Layout: ["layout", "viewport", "object", "navigation", "selection", "transform"],
+    Modeling: ["modeling", "edit", "mesh", "bevel", "extrude", "loop", "topology"],
+    "UV Editing": ["uv", "unwrap", "seam", "island", "texture"],
+    Sculpting: ["sculpt", "brush", "mask"],
+    Shading: ["shade", "material", "node", "shader", "rendered"],
+    Animation: ["animation", "timeline", "keyframe", "pose", "armature"],
+    "Geometry Nodes": ["nodes", "node editor", "geometry nodes"],
+    Rendering: ["render", "camera", "light", "output"],
+  };
+  return (aliases[workspace] ?? [workspace]).some((term) => text.includes(normalize(term)));
+};
 
 const emptyShortcut = (categories: string[], modes: string[]): Keybind => ({
   id: "",
@@ -201,6 +285,8 @@ function App() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [mode, setMode] = useState("All");
+  const [difficulty, setDifficulty] = useState("All");
+  const [workspaceContext, setWorkspaceContext] = useState("All");
   const [shortcutLibrary, setShortcutLibrary] = useState<ShortcutLibrary>(fallbackLibrary);
   const [shortcutLibraryPath, setShortcutLibraryPath] = useState("");
   const [shortcutLibraryError, setShortcutLibraryError] = useState("");
@@ -232,6 +318,19 @@ function App() {
   const [updateBusy, setUpdateBusy] = useState(false);
   const [updateMessage, setUpdateMessage] = useState("");
   const [theme, setTheme] = useState<ThemeId>(() => readTheme());
+  const [recentIds, setRecentIds] = useState<string[]>(() => readJsonStorage<string[]>(RECENT_STORAGE_KEY, []));
+  const [favoriteNotes, setFavoriteNotes] = useState<Record<string, string>>(() => readJsonStorage<Record<string, string>>(NOTES_STORAGE_KEY, {}));
+  const [collections, setCollections] = useState<ShortcutCollection[]>(() =>
+    readJsonStorage<ShortcutCollection[]>(COLLECTIONS_STORAGE_KEY, [
+      { id: "always-forget", name: "Stuff I always forget", shortcutIds: [] },
+      { id: "daily-basics", name: "Blender daily basics", shortcutIds: [] },
+    ]),
+  );
+  const [newCollectionName, setNewCollectionName] = useState("");
+  const [practiceIndex, setPracticeIndex] = useState(0);
+  const [practiceAnswer, setPracticeAnswer] = useState("");
+  const [practiceResult, setPracticeResult] = useState("");
+  const [practicePool, setPracticePool] = useState<"Beginner" | "Favorites" | "All">("Beginner");
 
   const keybinds = shortcutLibrary.shortcuts.length ? shortcutLibrary.shortcuts : fallbackLibrary.shortcuts;
 
@@ -239,6 +338,18 @@ function App() {
     document.body.dataset.theme = theme;
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
+
+  useEffect(() => {
+    writeJsonStorage(RECENT_STORAGE_KEY, recentIds);
+  }, [recentIds]);
+
+  useEffect(() => {
+    writeJsonStorage(NOTES_STORAGE_KEY, favoriteNotes);
+  }, [favoriteNotes]);
+
+  useEffect(() => {
+    writeJsonStorage(COLLECTIONS_STORAGE_KEY, collections);
+  }, [collections]);
 
   useEffect(() => {
     let cancelled = false;
@@ -620,6 +731,7 @@ function App() {
 
   const openShortcut = (shortcutId: string) => {
     setSelectedId(shortcutId);
+    markRecent(shortcutId);
     setActiveView("shortcuts");
     setFavoriteWidgetOpen(false);
   };
@@ -645,18 +757,25 @@ function App() {
     }
   }, [mode, modes]);
 
+  const markRecent = (shortcutId: string) => {
+    if (!shortcutId) return;
+    setRecentIds((current) => [shortcutId, ...current.filter((id) => id !== shortcutId)].slice(0, 12));
+  };
+
   const filteredShortcuts = useMemo(() => {
     return keybinds
       .map((shortcut) => ({ shortcut, score: scoreShortcut(shortcut, query) }))
       .filter(({ shortcut, score }) => {
         const categoryMatch = category === "All" || shortcut.category === category;
         const modeMatch = mode === "All" || shortcut.mode === mode;
+        const difficultyMatch = difficulty === "All" || getDifficulty(shortcut) === difficulty;
+        const workspaceMatch = workspaceMatches(shortcut, workspaceContext);
         const favoriteMatch = !favoriteOnly || favoriteSet.has(shortcut.id);
-        return categoryMatch && modeMatch && favoriteMatch && score > 0;
+        return categoryMatch && modeMatch && difficultyMatch && workspaceMatch && favoriteMatch && score > 0;
       })
       .sort((a, b) => b.score - a.score || a.shortcut.action.localeCompare(b.shortcut.action))
       .map(({ shortcut }) => shortcut);
-  }, [category, favoriteOnly, favoriteSet, mode, query]);
+  }, [category, difficulty, favoriteOnly, favoriteSet, keybinds, mode, query, workspaceContext]);
 
   const selected =
     filteredShortcuts.find((shortcut) => shortcut.id === selectedId) ??
@@ -680,6 +799,99 @@ function App() {
     },
     {},
   );
+
+  const recentShortcuts = useMemo(
+    () => recentIds.map((id) => keybinds.find((item) => item.id === id)).filter(Boolean) as Keybind[],
+    [keybinds, recentIds],
+  );
+
+  const practiceShortcuts = useMemo(() => {
+    const pool =
+      practicePool === "Favorites"
+        ? favoriteShortcuts
+        : practicePool === "Beginner"
+          ? keybinds.filter((shortcut) => shortcut.beginnerPriority >= 4)
+          : keybinds;
+    return pool.length ? pool : keybinds;
+  }, [favoriteShortcuts, keybinds, practicePool]);
+
+  const practiceShortcut = practiceShortcuts[practiceIndex % Math.max(1, practiceShortcuts.length)] ?? keybinds[0];
+
+  const checkPracticeAnswer = () => {
+    const expected = normalize(practiceShortcut.keys).replace(/\s+/g, "");
+    const actual = normalize(practiceAnswer).replace(/\s+/g, "");
+    setPracticeResult(actual && (expected.includes(actual) || actual.includes(expected)) ? "Correct." : `Answer: ${practiceShortcut.keys}`);
+  };
+
+  const nextPractice = () => {
+    setPracticeIndex((index) => index + 1);
+    setPracticeAnswer("");
+    setPracticeResult("");
+  };
+
+  const updateFavoriteNote = (shortcutId: string, note: string) => {
+    setFavoriteNotes((current) => ({ ...current, [shortcutId]: note }));
+  };
+
+  const createCollection = () => {
+    const name = newCollectionName.trim();
+    if (!name) return;
+    setCollections((current) => [...current, { id: slugify(name) || `collection-${Date.now()}`, name, shortcutIds: [] }]);
+    setNewCollectionName("");
+  };
+
+  const addToCollection = (collectionId: string, shortcutId: string) => {
+    setCollections((current) =>
+      current.map((collection) =>
+        collection.id === collectionId
+          ? { ...collection, shortcutIds: [shortcutId, ...collection.shortcutIds.filter((id) => id !== shortcutId)] }
+          : collection,
+      ),
+    );
+  };
+
+  const removeFromCollection = (collectionId: string, shortcutId: string) => {
+    setCollections((current) =>
+      current.map((collection) =>
+        collection.id === collectionId
+          ? { ...collection, shortcutIds: collection.shortcutIds.filter((id) => id !== shortcutId) }
+          : collection,
+      ),
+    );
+  };
+
+  const exportUserData = () => {
+    const data = {
+      favoriteIds,
+      favoriteNotes,
+      collections,
+      recentIds,
+      exportedAt: new Date().toISOString(),
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "blendkeys-user-data.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importUserData = async (file: File | null) => {
+    if (!file) return;
+    const data = JSON.parse(await file.text()) as {
+      favoriteIds?: string[];
+      favoriteNotes?: Record<string, string>;
+      collections?: ShortcutCollection[];
+      recentIds?: string[];
+    };
+    if (Array.isArray(data.favoriteIds)) {
+      setFavoriteIds(data.favoriteIds);
+      writeLocalFavorites(data.favoriteIds);
+    }
+    if (data.favoriteNotes) setFavoriteNotes(data.favoriteNotes);
+    if (Array.isArray(data.collections)) setCollections(data.collections);
+    if (Array.isArray(data.recentIds)) setRecentIds(data.recentIds);
+  };
 
   return (
     <main className="app-shell">
@@ -720,12 +932,13 @@ function App() {
         <header className="topbar">
           <div>
             <span className="eyebrow">Offline Blender 4.x reference</span>
-            <h1>{activeView === "shortcuts" ? "Find the command before you forget it." : activeView === "library" ? "Shape your shortcut library." : activeView === "cheatsheets" ? "Fast Blender workflows." : activeView === "glossary" ? "Blender terms without the fog." : activeView === "addons" ? "Install the extras around BlendKeys." : "Tune BlendKeys to your workspace."}</h1>
+            <h1>{activeView === "shortcuts" ? "Find the command before you forget it." : activeView === "practice" ? "Train the shortcuts until they stick." : activeView === "paths" ? "Follow a Blender learning path." : activeView === "tips" ? "Solve common Blender problems." : activeView === "collections" ? "Keep your own shortcut sets." : activeView === "library" ? "Shape your shortcut library." : activeView === "cheatsheets" ? "Fast Blender workflows." : activeView === "glossary" ? "Blender terms without the fog." : activeView === "addons" ? "Install the extras around BlendKeys." : "Tune BlendKeys to your workspace."}</h1>
           </div>
           <div className="stat-strip" aria-label="Library stats">
             <span>{keybinds.length} shortcuts</span>
             <span>{favoriteIds.length} favorites</span>
             <span>{cheatsheets.length} sheets</span>
+            <span>{tipGuides.length} tips</span>
             <span>{glossary.length} terms</span>
           </div>
         </header>
@@ -768,6 +981,16 @@ function App() {
                 </select>
                 <select value={mode} onChange={(event) => setMode(event.currentTarget.value)}>
                   {modes.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+                <select value={difficulty} onChange={(event) => setDifficulty(event.currentTarget.value)}>
+                  {["All", "Beginner", "Intermediate", "Advanced"].map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+                <select value={workspaceContext} onChange={(event) => setWorkspaceContext(event.currentTarget.value)}>
+                  {workspaceContexts.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
                 </select>
@@ -819,7 +1042,10 @@ function App() {
                           <kbd>{shortcut.keys}</kbd>
                           <button
                             className="shortcut-main"
-                            onClick={() => setSelectedId(shortcut.id)}
+                            onClick={() => {
+                              setSelectedId(shortcut.id);
+                              markRecent(shortcut.id);
+                            }}
                             type="button"
                           >
                             <strong>{shortcut.action}</strong>
@@ -873,8 +1099,195 @@ function App() {
                   </button>
                 ))}
               </section>
+              {recentShortcuts.length > 0 && (
+                <section className="related">
+                  <h3>Recently viewed</h3>
+                  {recentShortcuts.slice(0, 4).map((shortcut) => (
+                    <button key={shortcut.id} onClick={() => openShortcut(shortcut.id)} type="button">
+                      <kbd>{shortcut.keys}</kbd>
+                      <span>{shortcut.action}</span>
+                    </button>
+                  ))}
+                </section>
+              )}
             </aside>
           </div>
+        )}
+
+        {activeView === "practice" && (
+          <section className="practice-view">
+            <article className="addon-card compact practice-card">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Shortcut trainer</span>
+                  <h2>{practiceShortcut.action}</h2>
+                </div>
+                <select value={practicePool} onChange={(event) => setPracticePool(event.currentTarget.value as "Beginner" | "Favorites" | "All")}>
+                  <option>Beginner</option>
+                  <option>Favorites</option>
+                  <option>All</option>
+                </select>
+              </div>
+              <p>{practiceShortcut.description}</p>
+              <div className="practice-prompt">
+                <span>{practiceShortcut.category}</span>
+                <strong>What shortcut triggers this command?</strong>
+              </div>
+              <div className="key-field">
+                <input
+                  value={practiceAnswer}
+                  onChange={(event) => setPracticeAnswer(event.currentTarget.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") checkPracticeAnswer();
+                  }}
+                  placeholder="Type the shortcut, like G or Ctrl + R"
+                />
+                <button onClick={checkPracticeAnswer} type="button">Check</button>
+              </div>
+              {practiceResult && <div className="addon-message">{practiceResult}</div>}
+              <div className="addon-actions">
+                <button className="secondary-action" onClick={() => openShortcut(practiceShortcut.id)} type="button">
+                  Open shortcut
+                </button>
+                <button onClick={nextPractice} type="button">Next question</button>
+              </div>
+            </article>
+          </section>
+        )}
+
+        {activeView === "paths" && (
+          <section className="content-grid">
+            {learningPaths.map((path) => (
+              <article className="learning-card path-card" key={path.title}>
+                <span className="eyebrow">{path.level}</span>
+                <h2>{path.title}</h2>
+                <p>{path.summary}</p>
+                <div className="step-list">
+                  {path.shortcutIds.map((id) => {
+                    const shortcut = keybinds.find((item) => item.id === id);
+                    if (!shortcut) return null;
+                    return (
+                      <button key={id} onClick={() => openShortcut(id)} type="button">
+                        <kbd>{shortcut.keys}</kbd>
+                        <span>{shortcut.action}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="outcome-list">
+                  {path.outcomes.map((outcome) => <span key={outcome}>{outcome}</span>)}
+                </div>
+              </article>
+            ))}
+          </section>
+        )}
+
+        {activeView === "tips" && (
+          <section className="tips-view">
+            {tipGuides.map((guide) => (
+              <article className="addon-card tip-card" key={guide.title}>
+                <div>
+                  <span className="eyebrow">{guide.theme}</span>
+                  <h2>{guide.title}</h2>
+                  <p>{guide.summary}</p>
+                </div>
+                {guide.methods.map((method) => (
+                  <section className="tip-method" key={method.title}>
+                    <h3>{method.title}</h3>
+                    <ol>
+                      {method.steps.map((step) => <li key={step}>{step}</li>)}
+                    </ol>
+                    <div className="tag-list">
+                      {method.relatedShortcutIds.map((id) => {
+                        const shortcut = keybinds.find((item) => item.id === id);
+                        if (!shortcut) return null;
+                        return (
+                          <button key={id} onClick={() => openShortcut(id)} type="button">
+                            <kbd>{shortcut.keys}</kbd>
+                            {shortcut.action}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
+                ))}
+              </article>
+            ))}
+          </section>
+        )}
+
+        {activeView === "collections" && (
+          <section className="collections-view">
+            <article className="addon-card compact">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Personal sets</span>
+                  <h2>Collections and notes</h2>
+                </div>
+              </div>
+              <p>Create your own shortcut folders and leave small notes on favorites you want to remember.</p>
+              <div className="inline-editor">
+                <input value={newCollectionName} onChange={(event) => setNewCollectionName(event.currentTarget.value)} placeholder="Collection name" />
+                <button onClick={createCollection} type="button">Create</button>
+              </div>
+            </article>
+
+            <article className="addon-card compact">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Favorites</span>
+                  <h2>Favorite notes</h2>
+                </div>
+              </div>
+              <div className="collection-list">
+                {favoriteShortcuts.length === 0 && <p>Favorite shortcuts first, then add notes here.</p>}
+                {favoriteShortcuts.map((shortcut) => (
+                  <div className="note-row" key={shortcut.id}>
+                    <button onClick={() => openShortcut(shortcut.id)} type="button">
+                      <kbd>{shortcut.keys}</kbd>
+                      <strong>{shortcut.action}</strong>
+                    </button>
+                    <textarea
+                      value={favoriteNotes[shortcut.id] ?? ""}
+                      onChange={(event) => updateFavoriteNote(shortcut.id, event.currentTarget.value)}
+                      placeholder="Your note for this shortcut..."
+                    />
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            {collections.map((collection) => (
+              <article className="addon-card" key={collection.id}>
+                <div className="addon-card-heading">
+                  <div>
+                    <span className="eyebrow">{collection.shortcutIds.length} shortcuts</span>
+                    <h2>{collection.name}</h2>
+                  </div>
+                  <button className="secondary-action" onClick={() => addToCollection(collection.id, selected.id)} type="button">
+                    Add selected
+                  </button>
+                </div>
+                <div className="widget-list">
+                  {collection.shortcutIds.length === 0 && <p>Add selected shortcuts from the detail panel or this page.</p>}
+                  {collection.shortcutIds.map((id) => {
+                    const shortcut = keybinds.find((item) => item.id === id);
+                    if (!shortcut) return null;
+                    return (
+                      <button key={id} onClick={() => openShortcut(id)} type="button">
+                        <kbd>{shortcut.keys}</kbd>
+                        <span>{shortcut.action}</span>
+                        <X size={15} onClick={(event) => {
+                          event.stopPropagation();
+                          removeFromCollection(collection.id, id);
+                        }} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </article>
+            ))}
+          </section>
         )}
 
         {activeView === "library" && (
@@ -1257,6 +1670,39 @@ function App() {
                 <code>{shortcutLibraryPath || "%APPDATA%\\BlendKeys\\library\\shortcuts.json"}</code>
               </div>
               {shortcutLibraryError && <div className="addon-message">{shortcutLibraryError}</div>}
+            </article>
+
+            <article className="addon-card compact">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Backup</span>
+                  <h2>Favorites, notes, and collections</h2>
+                </div>
+              </div>
+              <p>
+                Export your personal BlendKeys data before moving machines or reinstalling Windows,
+                then import it later.
+              </p>
+              <div className="addon-actions">
+                <button onClick={exportUserData} type="button">
+                  <FolderOpen size={18} />
+                  Export user data
+                </button>
+                <label className="import-button">
+                  <FolderOpen size={18} />
+                  Import user data
+                  <input
+                    accept="application/json"
+                    onChange={(event) => {
+                      importUserData(event.currentTarget.files?.[0] ?? null).catch((error) =>
+                        setUpdateMessage(`Unable to import user data: ${String(error)}`),
+                      );
+                      event.currentTarget.value = "";
+                    }}
+                    type="file"
+                  />
+                </label>
+              </div>
             </article>
           </section>
         )}

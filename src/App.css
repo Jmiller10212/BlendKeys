@@ -559,10 +559,16 @@ kbd {
 .content-grid,
 .glossary-grid,
 .addons-view,
-.settings-view {
+.settings-view,
+.tips-view,
+.collections-view {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;
+}
+
+.practice-view {
+  max-width: 920px;
 }
 
 .library-editor {
@@ -850,7 +856,8 @@ kbd {
 }
 
 .addon-actions button,
-.addon-card > button {
+.addon-card > button,
+.import-button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -861,6 +868,10 @@ kbd {
   color: #ffd2a3;
   padding: 10px 13px;
   font-weight: 800;
+}
+
+.import-button input {
+  display: none;
 }
 
 .addon-actions button:hover,
@@ -978,6 +989,129 @@ kbd {
   padding: 9px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
+}
+
+.step-list button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #eef4f8;
+  padding: 9px;
+  text-align: left;
+}
+
+.step-list button:hover {
+  background: rgba(247, 131, 32, 0.13);
+}
+
+.practice-card {
+  gap: 22px;
+}
+
+.practice-card select,
+.practice-card input {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #111820;
+  color: #eef4f8;
+  padding: 10px 12px;
+}
+
+.practice-prompt {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(247, 131, 32, 0.25);
+  border-radius: 8px;
+  background: rgba(247, 131, 32, 0.1);
+  padding: 18px;
+}
+
+.practice-prompt span {
+  color: #f7a557;
+  font-weight: 800;
+}
+
+.practice-prompt strong {
+  font-size: 1.3rem;
+}
+
+.outcome-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.outcome-list span {
+  border: 1px solid rgba(83, 214, 137, 0.24);
+  border-radius: 999px;
+  background: rgba(83, 214, 137, 0.1);
+  color: #bdf5d2;
+  padding: 7px 10px;
+  font-size: 0.82rem;
+}
+
+.tip-card {
+  grid-column: span 2;
+}
+
+.tip-method {
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  padding-top: 16px;
+}
+
+.tip-method h3 {
+  margin: 0;
+}
+
+.tip-method ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 22px;
+  color: #cbd6df;
+  line-height: 1.55;
+}
+
+.collection-list {
+  display: grid;
+  gap: 12px;
+}
+
+.note-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.note-row button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  color: #eef4f8;
+  padding: 10px;
+  text-align: left;
+}
+
+.note-row textarea {
+  min-height: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #111820;
+  color: #eef4f8;
+  padding: 10px 12px;
+  resize: vertical;
 }
 
 .term-card span {
@@ -1210,6 +1344,7 @@ kbd {
   .editor-form,
   .filter-manager,
   .key-field,
+  .note-row,
   .inline-editor,
   .inline-editor:has(select) {
     grid-template-columns: 1fr;
@@ -1324,6 +1459,12 @@ body[data-theme] .editor-form textarea,
 body[data-theme] .inline-editor input,
 body[data-theme] .inline-editor select,
 body[data-theme] .key-recorder input {
+  background: var(--panel-solid);
+}
+
+body[data-theme] .practice-card input,
+body[data-theme] .practice-card select,
+body[data-theme] .note-row textarea {
   background: var(--panel-solid);
 }
 

@@ -9,6 +9,25 @@ export type Keybind = {
   beginnerPriority: number;
 };
 
+export type LearningPath = {
+  title: string;
+  level: "Beginner" | "Intermediate";
+  summary: string;
+  shortcutIds: string[];
+  outcomes: string[];
+};
+
+export type TipGuide = {
+  title: string;
+  theme: string;
+  summary: string;
+  methods: {
+    title: string;
+    steps: string[];
+    relatedShortcutIds: string[];
+  }[];
+};
+
 export const cheatsheets = [
   {
     title: "Viewport Navigation",
@@ -63,6 +82,240 @@ export const cheatsheets = [
       { keys: "Alt + A", label: "Clear selection" },
       { keys: "B", label: "Box select" },
       { keys: "C", label: "Circle select" },
+    ],
+  },
+  {
+    title: "Hard Surface Modeling Basics",
+    theme: "Modeling",
+    summary: "A compact loop for panels, bevels, support edges, and clean hard-surface shape changes.",
+    steps: [
+      { keys: "Ctrl + R", label: "Add loop cuts for support geometry" },
+      { keys: "I", label: "Inset faces before pushing panels inward" },
+      { keys: "Ctrl + B", label: "Bevel sharp edges so they catch light" },
+      { keys: "Shift + N", label: "Recalculate normals when shading looks wrong" },
+    ],
+  },
+  {
+    title: "UV Unwrap Starter",
+    theme: "UV Editing",
+    summary: "The basic unwrap flow for getting textures onto a model cleanly.",
+    steps: [
+      { keys: "Ctrl + E", label: "Mark seams on selected edges" },
+      { keys: "U", label: "Open unwrap options" },
+      { keys: "U > Unwrap", label: "Create UV islands from marked seams" },
+      { keys: "UV > Pack Islands", label: "Pack UV islands into the texture area" },
+    ],
+  },
+  {
+    title: "Sculpting Starter",
+    theme: "Sculpting",
+    summary: "The basic sculpt controls for brush size, strength, smoothing, and masking.",
+    steps: [
+      { keys: "F", label: "Adjust brush size" },
+      { keys: "Shift + F", label: "Adjust brush strength" },
+      { keys: "Shift", label: "Temporarily smooth while sculpting" },
+      { keys: "Alt + M", label: "Clear the sculpt mask" },
+    ],
+  },
+  {
+    title: "Animation Starter",
+    theme: "Animation",
+    summary: "Create a simple object animation and inspect the keyframes.",
+    steps: [
+      { keys: "I", label: "Insert a keyframe" },
+      { keys: "Space", label: "Play the timeline" },
+      { keys: "Up / Down", label: "Jump between keyframes" },
+      { keys: "Shift + F6", label: "Open the Graph Editor" },
+    ],
+  },
+  {
+    title: "Geometry Nodes Starter",
+    theme: "Nodes",
+    summary: "Start moving around the node editor without getting lost.",
+    steps: [
+      { keys: "Shift + A", label: "Open the node add menu" },
+      { keys: "Drag Socket", label: "Connect node sockets" },
+      { keys: "Ctrl + Right Click Drag", label: "Cut node links" },
+      { keys: "M", label: "Mute a selected node" },
+    ],
+  },
+  {
+    title: "Camera And Render Flow",
+    theme: "Render",
+    summary: "Line up a camera, test part of the image, and render the scene.",
+    steps: [
+      { keys: "Ctrl + Alt + Numpad 0", label: "Align camera to the current view" },
+      { keys: "Numpad 0", label: "Look through the camera" },
+      { keys: "Ctrl + B", label: "Set a render border for tests" },
+      { keys: "F12", label: "Render the current frame" },
+    ],
+  },
+];
+
+export const learningPaths: LearningPath[] = [
+  {
+    title: "Day 1: Viewport Confidence",
+    level: "Beginner",
+    summary: "Learn how to move around the scene and frame what matters.",
+    shortcutIds: ["orbit", "pan", "zoom", "front-view", "side-view", "top-view", "frame-selected", "toggle-ortho-perspective"],
+    outcomes: ["Orbit, pan, and zoom without toolbar hunting", "Jump to front, side, and top views", "Frame the active selection quickly"],
+  },
+  {
+    title: "Day 2: Select And Transform",
+    level: "Beginner",
+    summary: "Build the base muscle memory for grabbing, rotating, scaling, and constraining movement.",
+    shortcutIds: ["select-all", "deselect-all", "box-select", "move", "rotate", "scale", "move-x", "move-y", "move-z"],
+    outcomes: ["Select objects predictably", "Use G/R/S transforms", "Constrain transforms to X, Y, and Z"],
+  },
+  {
+    title: "Day 3: Edit Mode Basics",
+    level: "Beginner",
+    summary: "Enter Edit Mode and shape mesh components directly.",
+    shortcutIds: ["mode-toggle", "vertex-select", "edge-select", "face-select", "extrude", "inset", "loop-cut", "make-face-edge"],
+    outcomes: ["Switch between selection types", "Extrude and inset faces", "Add loop cuts for more control"],
+  },
+  {
+    title: "Day 4: Clean Modeling",
+    level: "Intermediate",
+    summary: "Start improving topology, normals, bevels, and mesh cleanup.",
+    shortcutIds: ["bevel", "edge-slide", "mark-sharp", "normals-menu", "recalculate-normals-outside", "triangulate-faces", "tris-to-quads"],
+    outcomes: ["Fix bad shading with normals", "Use bevels and edge slides", "Understand triangle and quad cleanup tools"],
+  },
+  {
+    title: "Day 5: UV And Materials",
+    level: "Intermediate",
+    summary: "Prepare a model for texturing with seams, unwraps, UV islands, and materials.",
+    shortcutIds: ["mark-seam", "clear-seam", "uv-unwrap", "uv-smart-project", "uv-pack-islands", "material-preview", "assign-material-slot"],
+    outcomes: ["Mark seams intentionally", "Unwrap and pack UV islands", "Preview material results in the viewport"],
+  },
+  {
+    title: "Day 6: Animation And Rendering",
+    level: "Beginner",
+    summary: "Insert keyframes, preview motion, set a camera, and render a frame.",
+    shortcutIds: ["insert-keyframe", "play-animation", "previous-keyframe", "next-keyframe", "camera-view", "align-camera-to-view", "render-image"],
+    outcomes: ["Create basic keyframes", "Navigate the timeline", "Line up and render from a camera"],
+  },
+];
+
+export const tipGuides: TipGuide[] = [
+  {
+    title: "Snap a doorknob flush to a door",
+    theme: "Snapping",
+    summary: "Use face snapping when one flat object needs to sit cleanly against another, such as a knob plate on a door face.",
+    methods: [
+      {
+        title: "Method 1: Face snapping with the magnet",
+        steps: [
+          "Select the doorknob object.",
+          "In the 3D Viewport header, turn on the magnet icon to enable snapping.",
+          "Open the snapping dropdown beside the magnet and choose Face.",
+          "Enable Align Rotation to Target if the knob needs to match the door face angle.",
+          "Press G to move the knob and hover over the door face until it snaps flush.",
+          "Left-click to confirm, then turn snapping off if you do not need it anymore.",
+        ],
+        relatedShortcutIds: ["move", "snap-toggle", "toggle-xray", "frame-selected"],
+      },
+      {
+        title: "Method 2: Cursor placement for controlled positioning",
+        steps: [
+          "Select the door face or place the 3D Cursor where the knob should sit.",
+          "Use Shift + S and choose Cursor to Selected if you selected geometry first.",
+          "Select the doorknob object.",
+          "Use Shift + S and choose Selection to Cursor.",
+          "Fine-tune with G then local axis constraints if needed.",
+        ],
+        relatedShortcutIds: ["snap-menu", "cursor-to-selected", "selection-to-cursor", "move-local-axis"],
+      },
+      {
+        title: "Method 3: Numeric offset after snapping",
+        steps: [
+          "Snap the knob to the door face first.",
+          "Start a move with G and constrain to the local normal-facing axis.",
+          "Type a tiny offset if the knob clips into the door surface.",
+          "Confirm with Enter or Left Click.",
+        ],
+        relatedShortcutIds: ["numeric-transform", "move-local-axis", "confirm"],
+      },
+    ],
+  },
+  {
+    title: "Fix weird black shading on a mesh",
+    theme: "Shading",
+    summary: "Most beginner shading artifacts come from normals, overly sharp geometry, or missing bevels.",
+    methods: [
+      {
+        title: "Recalculate normals",
+        steps: [
+          "Select the object and press Tab to enter Edit Mode.",
+          "Press A to select all mesh components.",
+          "Press Shift + N to recalculate normals outside.",
+          "If some faces still look wrong, open Alt + N for more normal tools.",
+        ],
+        relatedShortcutIds: ["mode-toggle", "select-all", "recalculate-normals-outside", "normals-menu"],
+      },
+      {
+        title: "Add small bevels",
+        steps: [
+          "Select hard edges that look unnaturally sharp.",
+          "Press Ctrl + B to bevel them slightly.",
+          "Use the mouse wheel to add segments if a softer edge is needed.",
+          "Shade Smooth from the right-click menu if appropriate.",
+        ],
+        relatedShortcutIds: ["bevel", "shade-smooth-menu", "mark-sharp"],
+      },
+    ],
+  },
+  {
+    title: "Make a simple panel or inset detail",
+    theme: "Modeling",
+    summary: "Inset and extrude are the core workflow for doors, panels, vents, buttons, and hard-surface details.",
+    methods: [
+      {
+        title: "Inset then push inward",
+        steps: [
+          "Select the face where the panel should appear.",
+          "Press I to inset the face and drag to set the border width.",
+          "Press E to extrude the inset face.",
+          "Move inward along the correct axis and confirm.",
+          "Add a small bevel with Ctrl + B if the edge should catch light.",
+        ],
+        relatedShortcutIds: ["face-select", "inset", "extrude", "move-local-axis", "bevel"],
+      },
+    ],
+  },
+  {
+    title: "Line up a camera with the current view",
+    theme: "Camera",
+    summary: "When you find a good viewport angle, push the camera directly to that view.",
+    methods: [
+      {
+        title: "Align camera to view",
+        steps: [
+          "Navigate the viewport until the composition looks good.",
+          "Press Ctrl + Alt + Numpad 0 to align the active camera to the current view.",
+          "Press Numpad 0 to look through the camera.",
+          "Use the N panel View options to enable Lock Camera to View for small adjustments.",
+          "Press F12 to render a still frame.",
+        ],
+        relatedShortcutIds: ["align-camera-to-view", "camera-view", "lock-camera-to-view", "render-image"],
+      },
+    ],
+  },
+  {
+    title: "Select hidden mesh parts without fighting the view",
+    theme: "Selection",
+    summary: "Use X-Ray or wireframe before selecting through a mesh.",
+    methods: [
+      {
+        title: "X-Ray box selection",
+        steps: [
+          "Press Alt + Z to enable X-Ray.",
+          "Press B for Box Select.",
+          "Drag over the front and back components you want selected.",
+          "Press Alt + Z again to return to normal solid view.",
+        ],
+        relatedShortcutIds: ["toggle-xray", "box-select", "toggle-xray-select"],
+      },
     ],
   },
 ];
