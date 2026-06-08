@@ -558,7 +558,8 @@ kbd {
 
 .content-grid,
 .glossary-grid,
-.addons-view {
+.addons-view,
+.settings-view {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;

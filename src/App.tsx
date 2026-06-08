@@ -29,7 +29,7 @@ import "./App.css";
 import defaultShortcutLibrary from "./data/defaultShortcutLibrary.json";
 import { cheatsheets, glossary, type Keybind } from "./data/blenderShortcuts";
 
-type View = "shortcuts" | "library" | "cheatsheets" | "glossary" | "addons";
+type View = "shortcuts" | "library" | "cheatsheets" | "glossary" | "addons" | "settings";
 const FAVORITES_STORAGE_KEY = "blendkeys.favoriteShortcutIds";
 const THEME_STORAGE_KEY = "blendkeys.theme";
 
@@ -64,6 +64,7 @@ const navigation = [
   { id: "cheatsheets" as const, label: "Cheatsheets", icon: BookOpen },
   { id: "glossary" as const, label: "Glossary", icon: GraduationCap },
   { id: "addons" as const, label: "Add-ons", icon: PackageOpen },
+  { id: "settings" as const, label: "Settings", icon: Settings2 },
 ];
 
 const categoryIcons: Record<string, typeof Compass> = {
@@ -77,7 +78,7 @@ const categoryIcons: Record<string, typeof Compass> = {
 };
 
 const fallbackLibrary = defaultShortcutLibrary as ShortcutLibrary;
-const releaseHighlight = "Expanded reference update 0.1.4: 100+ more shortcuts and a deeper glossary.";
+const releaseHighlight = "Settings update 0.1.5: themes and app updates now live in Settings.";
 
 const themes = [
   { id: "studio", name: "Blender Studio", note: "Default orange and blue studio look." },
@@ -719,7 +720,7 @@ function App() {
         <header className="topbar">
           <div>
             <span className="eyebrow">Offline Blender 4.x reference</span>
-            <h1>{activeView === "shortcuts" ? "Find the command before you forget it." : activeView === "library" ? "Shape your shortcut library." : activeView === "cheatsheets" ? "Fast Blender workflows." : activeView === "glossary" ? "Blender terms without the fog." : "Manage the extras around BlendKeys."}</h1>
+            <h1>{activeView === "shortcuts" ? "Find the command before you forget it." : activeView === "library" ? "Shape your shortcut library." : activeView === "cheatsheets" ? "Fast Blender workflows." : activeView === "glossary" ? "Blender terms without the fog." : activeView === "addons" ? "Install the extras around BlendKeys." : "Tune BlendKeys to your workspace."}</h1>
           </div>
           <div className="stat-strip" aria-label="Library stats">
             <span>{keybinds.length} shortcuts</span>
@@ -1142,8 +1143,8 @@ function App() {
           </section>
         )}
 
-        {activeView === "addons" && (
-          <section className="addons-view">
+        {activeView === "settings" && (
+          <section className="settings-view">
             <article className="addon-card compact">
               <div className="addon-card-heading">
                 <div>
@@ -1206,6 +1207,62 @@ function App() {
               {availableUpdate?.body && <div className="addon-message">{availableUpdate.body}</div>}
               {updateMessage && <div className="addon-message">{updateMessage}</div>}
             </article>
+
+            <article className="addon-card compact">
+              <div className="addon-card-heading">
+                <div>
+                  <span className="eyebrow">Editable library</span>
+                  <h2>Shortcut data file</h2>
+                </div>
+              </div>
+              <p>
+                BlendKeys reads shortcuts and filter metadata from a JSON file in your Windows app data folder.
+                Edit that file, then reload the library here without rebuilding the app.
+              </p>
+              <div className="addon-actions">
+                <button
+                  onClick={() => runLibraryAction("open-file", "open_shortcut_library_file")}
+                  type="button"
+                >
+                  <FolderOpen size={18} />
+                  Open shortcut library file
+                </button>
+                <button
+                  className="secondary-action"
+                  onClick={() => runLibraryAction("open-folder", "open_shortcut_library_folder")}
+                  type="button"
+                >
+                  <FolderOpen size={18} />
+                  Open shortcut library folder
+                </button>
+                <button
+                  className="secondary-action"
+                  onClick={() => runLibraryAction("reload", "read_shortcut_library")}
+                  type="button"
+                >
+                  <Settings2 size={18} />
+                  {libraryBusy === "reload" ? "Reloading..." : "Reload shortcut library"}
+                </button>
+                <button
+                  className="secondary-action"
+                  onClick={() => runLibraryAction("restore", "restore_default_shortcut_library")}
+                  type="button"
+                >
+                  <X size={18} />
+                  Restore default shortcut library
+                </button>
+              </div>
+              <div className="path-list">
+                <span>Shortcut library</span>
+                <code>{shortcutLibraryPath || "%APPDATA%\\BlendKeys\\library\\shortcuts.json"}</code>
+              </div>
+              {shortcutLibraryError && <div className="addon-message">{shortcutLibraryError}</div>}
+            </article>
+          </section>
+        )}
+
+        {activeView === "addons" && (
+          <section className="addons-view">
 
             <article className="addon-card">
               <div className="addon-card-heading">
@@ -1287,57 +1344,6 @@ function App() {
                   {addonBusy === "uninstall-widget" ? "Removing..." : "Uninstall widget"}
                 </button>
               </div>
-            </article>
-
-            <article className="addon-card compact">
-              <div className="addon-card-heading">
-                <div>
-                  <span className="eyebrow">Editable library</span>
-                  <h2>Shortcut data file</h2>
-                </div>
-              </div>
-              <p>
-                BlendKeys reads shortcuts and filter metadata from a JSON file in your Windows app data folder.
-                Edit that file, then reload the library here without rebuilding the app.
-              </p>
-              <div className="addon-actions">
-                <button
-                  onClick={() => runLibraryAction("open-file", "open_shortcut_library_file")}
-                  type="button"
-                >
-                  <FolderOpen size={18} />
-                  Open shortcut library file
-                </button>
-                <button
-                  className="secondary-action"
-                  onClick={() => runLibraryAction("open-folder", "open_shortcut_library_folder")}
-                  type="button"
-                >
-                  <FolderOpen size={18} />
-                  Open shortcut library folder
-                </button>
-                <button
-                  className="secondary-action"
-                  onClick={() => runLibraryAction("reload", "read_shortcut_library")}
-                  type="button"
-                >
-                  <Settings2 size={18} />
-                  {libraryBusy === "reload" ? "Reloading..." : "Reload shortcut library"}
-                </button>
-                <button
-                  className="secondary-action"
-                  onClick={() => runLibraryAction("restore", "restore_default_shortcut_library")}
-                  type="button"
-                >
-                  <X size={18} />
-                  Restore default shortcut library
-                </button>
-              </div>
-              <div className="path-list">
-                <span>Shortcut library</span>
-                <code>{shortcutLibraryPath || "%APPDATA%\\BlendKeys\\library\\shortcuts.json"}</code>
-              </div>
-              {shortcutLibraryError && <div className="addon-message">{shortcutLibraryError}</div>}
             </article>
 
             <article className="addon-card compact">
