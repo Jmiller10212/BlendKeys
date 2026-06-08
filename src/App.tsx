@@ -77,7 +77,7 @@ const categoryIcons: Record<string, typeof Compass> = {
 };
 
 const fallbackLibrary = defaultShortcutLibrary as ShortcutLibrary;
-const releaseHighlight = "Theme picker and 30 more Blender shortcuts added in 0.1.3.";
+const releaseHighlight = "Expanded reference update 0.1.4: 100+ more shortcuts and a deeper glossary.";
 
 const themes = [
   { id: "studio", name: "Blender Studio", note: "Default orange and blue studio look." },
